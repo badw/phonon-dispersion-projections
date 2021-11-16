@@ -8,3 +8,5 @@ ____
 
 * plotting group velocities onto a phonon dispersion with colour map
 
+
+(plan is that this will eventually be forked into `sumo` [](https://github.com/SMTG-UCL/sumo))
