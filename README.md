@@ -11,4 +11,4 @@ ____
 
 (plan is that this will eventually be forked into [https://github.com/SMTG-UCL/sumo](https://github.com/SMTG-UCL/sumo))
 
-![](../example/GaAs/gaas.png?raw=true)
+<img src="./example/GaAs/gaas.png" width="600" height="300">
