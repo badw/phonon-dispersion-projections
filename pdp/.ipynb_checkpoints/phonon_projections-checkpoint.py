@@ -4,11 +4,11 @@ from pymatgen.core import Structure
 class PhonopySumoProjections:
     ''' grab the phonons using the sumo interface '''
     def __init__(self,
-                 FORCE_SETS='FORCE_SETS',
+                 FORCES='FORCE_SETS',
                  unitcell = 'POSCAR',
                  dim = None):
         
-        self.forces = FORCE_SETS
+        self.forces = FORCES
         self.unitcell = unitcell
         self.structure = Structure.from_file(unitcell)
         self.dim = [[dim[0],0,0],
@@ -57,7 +57,7 @@ class PhonopySumoProjections:
                                                                 mass=Element(element).atomic_mass))
                         
                         qps.append(ats)
-                bnds.append(qps)
+                bnds.append(np.mean(qps))
             weights.append(bnds)
 
         return(np.asarray(weights))
@@ -78,7 +78,7 @@ class PhonopySumoProjections:
         
         ax.set_xlim(0,nq)
         norm = Normalize(vmin=np.min(weights),vmax=np.max(weights))
-        q = np.arange(bs.nb_qpoints)
+        q = np.arange(nq)
         for i in np.arange(nb):
             y = [y[i] for y in bs.bands.T]
             w = weights[i]
