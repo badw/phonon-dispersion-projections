@@ -10,8 +10,12 @@ ____
 (plan is that this will eventually be forked into [https://github.com/SMTG-UCL/sumo](https://github.com/SMTG-UCL/sumo))
 
 ##### GaAs
+
 <img src="./example/GaAs/gaas.png" width="600" height="300">
+
+
 ##### ZnO
+
 <img src="./example/ZnO/zno.png" width="600" height="300">
 
 ##### TODO + IDEAS
