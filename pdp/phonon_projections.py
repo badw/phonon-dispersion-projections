@@ -34,15 +34,18 @@ class PhonopySumoProjections:
         return(bs)
     
     def _get_elemental_phonon_weights(self,element,bs,**kwargs):
-        ''' takes one element at a time '''
+        ''' takes one element at a time, or if given atom indices you can plot those instead - at present these need to be the same element'''
         from pymatgen.io.phonopy import eigvec_to_eigdispl
         from pymatgen.core.periodic_table import Element
         
         nq = bs.nb_qpoints #number of qpoints
         nb = bs.nb_bands #number of bands
         na = bs.structure.num_sites # number of atoms/sites
-        vs = [i for i,x in enumerate(bs.structure.species) if x == Element(element)] # valid sites 
-        
+        if isinstance(element,list):
+            vs = element
+            element = bs.structure.species[vs[0]]
+        else:
+            vs = [i for i,x in enumerate(bs.structure.species) if x == Element(element)] # valid sites 
         weights = []
         for b in range(nb):
             bnds = []
