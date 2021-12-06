@@ -15,7 +15,7 @@ class PhonopySumoProjections:
                     [0,dim[1],0],
                     [0,0,dim[2]]]
         
-    def _get_sumo_phonopy_object(self,**kwargs): # sumo takes the edge out of getting the data together
+    def get_sumo_phonons(self,line_density=100,**kwargs): # sumo takes the edge out of getting the data together
         from sumo.cli.phonon_bandplot import _bs_from_filename as sumo_bs_from_filename
         bs, phon = sumo_bs_from_filename(filename=self.forces, 
                                          poscar = self.unitcell, 
@@ -29,11 +29,11 @@ class PhonopySumoProjections:
                                          born = False,
                                          mode = 'bradcrack',
                                          eigenvectors = True,
-                                         line_density = 100)
+                                         line_density = line_density)
         
         return(bs)
     
-    def _get_elemental_phonon_weights(self,element, bs,**kwargs):
+    def _get_elemental_phonon_weights(self,element,bs,**kwargs):
         ''' takes one element at a time '''
         from pymatgen.io.phonopy import eigvec_to_eigdispl
         from pymatgen.core.periodic_table import Element
@@ -62,13 +62,12 @@ class PhonopySumoProjections:
 
         return(np.asarray(weights))
     
-    def create_plot_scatter(self,element,ax,cmap='Blues',alpha=0.3,size=10,**kwargs):
+    def create_plot_scatter(self,bs,element,ax,cmap='Blues',alpha=0.3,size=10,**kwargs):
         from sumo.plotting import sumo_base_style
         import matplotlib.pyplot as plt
         plt.style.use(sumo_base_style) # this can probably be done in a better way 
         from matplotlib.colors import Normalize
         
-        bs = self._get_sumo_phonopy_object()
         weights = self._get_elemental_phonon_weights(element=element,bs=bs)
         
         ax = ax 
