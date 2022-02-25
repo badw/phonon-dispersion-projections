@@ -7,8 +7,6 @@ ____
 * plotting eigendisplacements of individual atoms onto a phonon dispersion
 
 
-(plan is that this will eventually be forked into [https://github.com/SMTG-UCL/sumo](https://github.com/SMTG-UCL/sumo))
-
 ##### GaAs
 
 <img src="./example/GaAs/gaas.png" width="600" height="300">
@@ -19,7 +17,6 @@ ____
 <img src="./example/ZnO/zno.png" width="600" height="300">
 
 ##### TODO + IDEAS
-> * add linesegment plot in addition to scatter plot
 > * multiprocess? larger systems are quite intensive but could just be memory issues...
 > * identify different sites and plot those, i.e. Octahedral vs Tetrahedral?
 > * plotting rotations vs displacements of polyhedra?
