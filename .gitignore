@@ -2,3 +2,5 @@ pdp/__pycache__
 pdp.egg-info
 notebooks/.ipynb_checkpoints
 notebooks/sumo_band.yaml
+.ipynb_checkpoints
+pdp/.ipynb_checkpoints
