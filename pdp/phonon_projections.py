@@ -15,21 +15,34 @@ class PhonopySumoProjections:
                     [0,dim[1],0],
                     [0,0,dim[2]]]
         
-    def get_sumo_phonons(self,line_density=100,**kwargs): # sumo takes the edge out of getting the data together
+    def get_sumo_phonons(self,
+                         line_density=100,
+                         symprec=0.01,
+                         spg = None,
+                         kpt_list = None,
+                         labels=None,
+                         primitive_axis=None,
+                         units='THz',
+                         born=False,
+                         mode='bradcrack',
+                         eigenvectors=True,
+                         **kw): # sumo takes the edge out of getting the data together
+        
         from sumo.cli.phonon_bandplot import _bs_from_filename as sumo_bs_from_filename
         bs, phon = sumo_bs_from_filename(filename=self.forces, 
                                          poscar = self.unitcell, 
                                          dim = self.dim,
-                                         symprec = 0.01,
-                                         spg = None, #self.structure.get_space_group_info()[1]
-                                         kpt_list = None,
-                                         labels = None,
-                                         primitive_axis = None,
-                                         units = 'THz',
-                                         born = False,
-                                         mode = 'bradcrack',
-                                         eigenvectors = True,
-                                         line_density = line_density)
+                                         symprec = symprec,
+                                         spg = spg, #self.structure.get_space_group_info()[1]
+                                         kpt_list = kpt_list,
+                                         labels = labels,
+                                         primitive_axis = primitive_axis,
+                                         units = units,
+                                         born = born,
+                                         mode = mode,
+                                         eigenvectors = eigenvectors,
+                                         line_density = line_density,
+                                         **kw)
         
         return(bs)
     
@@ -54,7 +67,7 @@ class PhonopySumoProjections:
                 for a in range(na):
                     if a in vs:
                         #print(q,b,a)
-                        ats = np.linalg.norm(eigvec_to_eigdispl(v=bs.eigendisplacements[b][q][a],
+                        ats = np.linalg.norm(eigvec_to_eigdispl(eig_vec=bs.eigendisplacements[b][q][a*3:a*3+3],
                                                                 q=bs.qpoints[q].frac_coords,
                                                                 frac_coords=bs.structure[a].frac_coords,
                                                                 mass=Element(element).atomic_mass))
@@ -66,9 +79,6 @@ class PhonopySumoProjections:
         return(np.asarray(weights))
     
     def _create_plot_scatter(self,bs,element,ax,cmap='Blues',alpha=0.3,size=10,**kwargs): #useful to plot a scatter
-        from sumo.plotting import sumo_base_style
-        import matplotlib.pyplot as plt
-        plt.style.use(sumo_base_style) # this can probably be done in a better way 
         from matplotlib.colors import Normalize
         
         weights = self._get_elemental_phonon_weights(element=element,bs=bs)
@@ -112,11 +122,7 @@ class PhonopySumoProjections:
         return(ax)
     
     def create_plot(self,bs,element,ax,cmap='Blues',alpha=0.3,size=10,**kwargs):
-
-        from sumo.plotting import sumo_base_style
-        import matplotlib.pyplot as plt
         from matplotlib.collections import LineCollection
-        plt.style.use(sumo_base_style) # this can probably be done in a better way 
         from matplotlib.colors import Normalize
         
         weights = self._get_elemental_phonon_weights(element=element,bs=bs)
@@ -159,7 +165,6 @@ class PhonopySumoProjections:
                         tick_points.append(i)
                     else:
                         tick_labels.append(k.label)
-
         ax.set_xticks(tick_points)
         ax.set_xticklabels(tick_labels)
         [ax.axvline(i,color='k') for i in tick_points]

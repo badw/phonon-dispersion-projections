@@ -14,6 +14,6 @@ setup(
     author="Benjamin A. D. Williamson",
     author_email="benjamin.williamson@ntnu.no",
     license='MIT',
-    packages=find_packages(),
+    packages=['pdp'],
     install_requires=['pymatgen','numpy','sumo','phonopy','matplotlib']
     )
